@@ -38,7 +38,7 @@ jobs:
       run: |
         uv venv antenv
         source antenv/bin/activate
-        uv sync --frozen --no-dev
+        ls -la
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
