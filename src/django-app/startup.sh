@@ -3,13 +3,13 @@ set -e
 
 # Install or sync dependencies using uv
 # Note: uv will automatically create or use the .venv in the project root
-uv sync --frozen --no-dev
+#uv sync --frozen --no-dev
 
 # Run Django database migrations
-uv run python manage.py migrate --noinput
+python manage.py migrate --noinput
 
 # Collect static files for production
-uv run python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput
 
 # Start the Django application using Gunicorn
 # Replace 'myproject.wsgi' with your actual Django WSGI module path
