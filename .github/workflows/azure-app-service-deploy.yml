@@ -29,14 +29,16 @@ jobs:
         python-version: 3.x
 
     - name: Set up uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v6
       with:
         # Automatically caches the uv package store between CI runs
         enable-cache: true
       
-    - name: Install dependencies
+    - name: Create virtual environment and install dependencies
       run: |
-        uv run sync 
+        uv venv antenv
+        source antenv/bin/activate
+        uv sync --frozen --no-dev
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
