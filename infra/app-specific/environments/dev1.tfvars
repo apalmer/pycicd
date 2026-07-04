@@ -1,0 +1,6 @@
+project_name = "pycidcd"
+project_instance = "dev1"
+location = "eastus"
+resource_group_name = "rg-pycidcd-dev1"
+pe_subnet_id = "/subscriptions/9247ed7a-b968-41cf-9104-9177a53aefd6/resourceGroups/rg-pycidcd-dev1/providers/Microsoft.Network/virtualNetworks/vnet-pycidcd-dev1/subnets/subnet-pycidcd-pe-dev1"
+vnet_integration_subnet_id = "/subscriptions/9247ed7a-b968-41cf-9104-9177a53aefd6/resourceGroups/rg-pycidcd-dev1/providers/Microsoft.Network/virtualNetworks/vnet-pycidcd-dev1/subnets/subnet-pycidcd-vi-dev1"
