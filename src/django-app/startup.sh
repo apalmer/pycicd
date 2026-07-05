@@ -13,4 +13,4 @@ python manage.py collectstatic --noinput
 
 # Start the Django application using Gunicorn
 # Replace 'myproject.wsgi' with your actual Django WSGI module path
-exec uv run gunicorn --bind=0.0.0.0:8000 --workers=4 django_app.wsgi
+gunicorn --bind=0.0.0.0:8000 --workers=4 django_app.wsgi
