@@ -38,7 +38,7 @@ jobs:
       run: |
         uv venv src/django-app/antenv
         source src/django-app/antenv/bin/activate
-        uv sync --project src/django-app/pyproject.toml --no-dev --frozen
+        uv sync --project src/django-app/pyproject.toml --no-dev --frozen --active
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
