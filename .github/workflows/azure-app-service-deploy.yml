@@ -36,9 +36,9 @@ jobs:
       
     - name: Create virtual environment and install dependencies
       run: |
-        uv venv antenv
-        source antenv/bin/activate
-        ls -la
+        uv venv src/django-app/antenv
+        source src/django-app/antenv/bin/activate
+        uv sync --project src/django-app/pyproject.toml --no-dev --frozen
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
