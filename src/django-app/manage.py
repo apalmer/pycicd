@@ -13,11 +13,13 @@ def main():
         from azure.monitor.opentelemetry import configure_azure_monitor
         from opentelemetry.instrumentation.django import DjangoInstrumentor
 
+        print("Initializing Azure Application Insights...", os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING", "No connection string found in environment variables."))
         # Configures OpenTelemetry to automatically use the connection string from env
         configure_azure_monitor() 
         
         # Hooks OpenTelemetry into Django's request/response loop
         DjangoInstrumentor().instrument()
+        print("Azure Application Insights initialized successfully.")
     except Exception as e:
         # Prevent telemetry failures from crashing your application startup
         print(f"Failed to initialize Azure Application Insights: {e}")
