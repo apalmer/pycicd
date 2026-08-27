@@ -1,16 +1,30 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-# Install or sync dependencies using uv
-# Note: uv will automatically create or use the .venv in the project root
-#uv sync --frozen --no-dev
+APP_DIR="/home/site/wwwroot"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+
+cd "$APP_DIR"
+
+# Ensure uv is available on App Service images that do not include it.
+if ! command -v uv >/dev/null 2>&1; then
+	"$PYTHON_BIN" -m pip install --user uv
+	export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Let uv decide whether to create a new environment or reuse an existing one.
+# This avoids relying on any specific virtual environment directory name.
+if [ -f uv.lock ]; then
+	uv sync --frozen --no-dev
+else
+	uv sync --no-dev
+fi
 
 # Run Django database migrations
-python manage.py migrate --noinput
+uv run python manage.py migrate --noinput
 
 # Collect static files for production
-python manage.py collectstatic --noinput
+uv run python manage.py collectstatic --noinput
 
 # Start the Django application using Gunicorn
-# Replace 'myproject.wsgi' with your actual Django WSGI module path
-gunicorn --bind=0.0.0.0:8000 --workers=4 django_app.wsgi
+exec uv run gunicorn --bind="0.0.0.0:${PORT:-8000}" --workers="${GUNICORN_WORKERS:-4}" django_app.wsgi:application

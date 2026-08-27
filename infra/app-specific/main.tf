@@ -30,18 +30,36 @@ resource "azurerm_linux_web_app" "app_service" {
   tags = local.tags
 }
 
-resource "azurerm_private_endpoint" "app_service_private_endpoint" {
-  name                = "pe-django-${var.project_name}-${var.project_instance}"
+# resource "azurerm_private_endpoint" "app_service_private_endpoint" {
+#   name                = "pe-django-${var.project_name}-${var.project_instance}"
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+#   subnet_id           = var.pe_subnet_id
+
+#   private_service_connection {
+#     name                           = "psc-django-${var.project_name}-${var.project_instance}"
+#     private_connection_resource_id = azurerm_linux_web_app.app_service.id
+#     is_manual_connection          = false
+#     subresource_names             = ["sites"]
+#   }
+
+#   tags = local.tags
+# }
+
+# 3. Create the Log Analytics Workspace
+resource "azurerm_log_analytics_workspace" "main" {
+  name                = "law-${var.project_name}-${var.project_instance}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = var.pe_subnet_id
+  sku                 = "PerGB2018" # Default standard pay-as-you-go tier
+  retention_in_days   = 30          # Customizable from 30 to 730 days
+}
 
-  private_service_connection {
-    name                           = "psc-django-${var.project_name}-${var.project_instance}"
-    private_connection_resource_id = azurerm_linux_web_app.app_service.id
-    is_manual_connection          = false
-    subresource_names             = ["sites"]
-  }
-
-  tags = local.tags
+# 4. Create the Workspace-Based Application Insights Instance
+resource "azurerm_application_insights" "main" {
+  name                = "appi-${var.project_name}-${var.project_instance}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  workspace_id        = azurerm_log_analytics_workspace.main.id # Ties to Log Analytics
+  application_type    = "web"                                  # Options: ios, java, mobile, phone, store, web
 }
