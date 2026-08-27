@@ -7,6 +7,22 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_app.settings')
+
+   # --- ADD APPLICATION INSIGHTS INTEGRATION HERE ---
+    try:
+        from azure.monitor.opentelemetry import configure_azure_monitor
+        from opentelemetry.instrumentation.django import DjangoInstrumentor
+
+        # Configures OpenTelemetry to automatically use the connection string from env
+        configure_azure_monitor() 
+        
+        # Hooks OpenTelemetry into Django's request/response loop
+        DjangoInstrumentor().instrument()
+    except Exception as e:
+        # Prevent telemetry failures from crashing your application startup
+        print(f"Failed to initialize Azure Application Insights: {e}")
+    # -------------------------------------------------
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

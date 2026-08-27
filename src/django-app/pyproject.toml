@@ -9,6 +9,8 @@ dependencies = [
     "gunicorn",
     "whitenoise",
     "psycopg2-binary",
+    "azure-monitor-opentelemetry>=1.8.9",
+    "opentelemetry-instrumentation-django>=0.64b0",
 ]
 
 [dependency-groups]
