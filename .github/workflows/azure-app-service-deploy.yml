@@ -1,8 +1,7 @@
-name: Deploy Django ASGI app to Azure App Service
+name: Python application
 
 on:
-  push:
-  workflow_dispatch:
+  [push]
 
 permissions:
       id-token: write
@@ -11,7 +10,6 @@ permissions:
 env:
   AZURE_WEBAPP_NAME: site-django-pycidcd-dev1 # Set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './src/django-app' # Set this to the path to your web app project, defaults to the repository root
-  PYTHON_VERSION: '3.14'
 
 jobs:
   build:
@@ -25,31 +23,27 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
+    - name: Set up Python 3.x
       uses: actions/setup-python@v6
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: 3.x
 
     - name: Set up uv
       uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d 
       with:
-        version: "latest"
         # Automatically caches the uv package store between CI runs
         enable-cache: true
-        cache-dependency-glob: src/django-app/uv.lock
-
-    - name: Validate dependencies and Django config
-      working-directory: src/django-app
+      
+    - name: Create virtual environment and install dependencies
       run: |
-        uv sync --frozen --no-dev
-        uv run python manage.py check --deploy
-
+        uv venv src/django-app/antenv
+        uv sync --project src/django-app/pyproject.toml --no-dev --frozen --active
+        
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        startup-command: bash startup.sh
     
     - name: logout
       run: |
