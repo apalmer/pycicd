@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Django ASGI with uv",
+            "type": "shell",
+            "command": "uv",
+            "args": [
+                "run",
+                "python",
+                "-m",
+                "debugpy",
+                "--listen",
+                "5678",
+                "-m",
+                "uvicorn",
+                "django_app.asgi:application",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/django-app"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": [
+                    {
+                        "regexp": "."
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "endsPattern": "Application startup complete\\."
+                }
+            }
+        }
+    ]
+}

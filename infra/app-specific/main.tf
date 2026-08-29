@@ -27,6 +27,12 @@ resource "azurerm_linux_web_app" "app_service" {
   site_config {
   }
 
+  app_settings = {
+    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    OTEL_SERVICE_NAME                      = "django-${var.project_name}-${var.project_instance}"
+    OTEL_PYTHON_DJANGO_EXCLUDED_URLS       = "healthz"
+  }
+
   tags = local.tags
 }
 

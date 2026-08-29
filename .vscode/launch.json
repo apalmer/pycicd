@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Django ASGI (uv)",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 5678
+            },
+            "preLaunchTask": "Run Django ASGI with uv",
+            "cwd": "${workspaceFolder}/src/django-app",
+            "justMyCode": true
+        }
+    ]
+}

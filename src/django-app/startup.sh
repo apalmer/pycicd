@@ -26,5 +26,5 @@ uv run python manage.py migrate --noinput
 # Collect static files for production
 uv run python manage.py collectstatic --noinput
 
-# Start the Django application using Gunicorn
-exec uv run gunicorn --bind="0.0.0.0:${PORT:-8000}" --workers="${GUNICORN_WORKERS:-4}" django_app.wsgi:application
+# Start the Django ASGI application using Uvicorn.
+exec uv run uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
