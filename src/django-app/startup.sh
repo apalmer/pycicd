@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "Starting Django application..."
+
 APP_DIR="/home/site/wwwroot"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 UV_PROJECT_ENVIRONMENT="antenv"
