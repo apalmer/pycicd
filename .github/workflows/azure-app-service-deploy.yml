@@ -37,6 +37,7 @@ jobs:
     - name: Create virtual environment and install dependencies
       run: |
         UV_PROJECT_ENVIRONMENT=antenv uv sync --project pyproject.toml --no-dev --frozen --active
+      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
