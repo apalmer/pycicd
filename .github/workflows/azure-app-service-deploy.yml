@@ -23,22 +23,22 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v6
-      with:
-        python-version: 3.x
+    # - name: Set up Python 3.x
+    #   uses: actions/setup-python@v6
+    #   with:
+    #     python-version: 3.x
 
-    - name: Set up uv
-      uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d 
-      with:
-        # Automatically caches the uv package store between CI runs
-        enable-cache: true
+    # - name: Set up uv
+    #   uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d 
+    #   with:
+    #     # Automatically caches the uv package store between CI runs
+    #     enable-cache: true
       
-    - name: Export requirements.txt from pyproject.toml
-      run: |
-        #UV_PROJECT_ENVIRONMENT=antenv uv sync --project pyproject.toml --no-dev --frozen --active
-        uv pip compile pyproject.toml -o requirements.txt
-      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    # - name: Export requirements.txt from pyproject.toml
+    #   run: |
+    #     #UV_PROJECT_ENVIRONMENT=antenv uv sync --project pyproject.toml --no-dev --frozen --active
+    #     uv pip compile pyproject.toml -o requirements.txt
+    #   working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Deploy web App using GH Action azure/webapps-deploy
       uses: azure/webapps-deploy@v3
