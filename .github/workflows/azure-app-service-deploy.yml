@@ -34,9 +34,10 @@ jobs:
         # Automatically caches the uv package store between CI runs
         enable-cache: true
       
-    - name: Create virtual environment and install dependencies
+    - name: Export requirements.txt from pyproject.toml
       run: |
-        UV_PROJECT_ENVIRONMENT=antenv uv sync --project pyproject.toml --no-dev --frozen --active
+        #UV_PROJECT_ENVIRONMENT=antenv uv sync --project pyproject.toml --no-dev --frozen --active
+        uv pip compile pyproject.toml -o requirements.txt
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Deploy web App using GH Action azure/webapps-deploy
