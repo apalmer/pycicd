@@ -5,7 +5,7 @@ echo "Starting Django application..."
 
 APP_DIR="/home/site/wwwroot"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
-UV_PROJECT_ENVIRONMENT="antenv"
+VIRTUAL_ENV="antenv"
 
 cd "$APP_DIR"
 
@@ -14,6 +14,7 @@ if ! command -v uv >/dev/null 2>&1; then
 	"$PYTHON_BIN" -m pip install --user uv
 	export PATH="$HOME/.local/bin:$PATH"
 fi
+
 
 # Let uv decide whether to create a new environment or reuse an existing one.
 # This avoids relying on any specific virtual environment directory name.
