@@ -3,10 +3,10 @@ set -euo pipefail
 
 echo "Starting Django application..."
 
-APP_DIR="/home/site/wwwroot"
-PYTHON_BIN="${PYTHON_BIN:-python3}"
+# APP_DIR="/home/site/wwwroot"
+# PYTHON_BIN="${PYTHON_BIN:-python3}"
 
-cd "$APP_DIR"
+# cd "$APP_DIR"
 
 # Ensure uv is available on App Service images that do not include it.
 # if ! command -v uv >/dev/null 2>&1; then
