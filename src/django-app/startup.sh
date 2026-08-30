@@ -22,10 +22,10 @@ echo "Starting Django application..."
 # fi
 
 # Run Django database migrations
-python manage.py migrate --noinput --active 
+python manage.py migrate --noinput
 
 # Collect static files for production
-python manage.py collectstatic --noinput --active 
+python manage.py collectstatic --noinput
 
 # Start the Django ASGI application using Uvicorn.
 uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
