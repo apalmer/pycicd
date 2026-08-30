@@ -19,16 +19,16 @@ fi
 # Let uv decide whether to create a new environment or reuse an existing one.
 # This avoids relying on any specific virtual environment directory name.
 if [ -f uv.lock ]; then
-	uv sync --frozen --no-dev
+	uv sync --frozen --no-dev --active 
 else
-	uv sync --no-dev
+	uv sync --no-dev --active 
 fi
 
 # Run Django database migrations
-uv run python manage.py migrate --noinput
+uv run python manage.py migrate --noinput --active 
 
 # Collect static files for production
-uv run python manage.py collectstatic --noinput
+uv run python manage.py collectstatic --noinput --active 
 
 # Start the Django ASGI application using Uvicorn.
-exec uv run uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
+exec uv run --active uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
