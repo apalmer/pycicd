@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Homepage for the Django app with health, deployment, and platform-ready defaults.">
+    <meta name="theme-color" content="#f6efe5">
+    <meta name="color-scheme" content="light dark">
+    <title>Home | Django App</title>
+    <style>
+      :root {
+        --bg: linear-gradient(160deg, #f6efe5 0%, #f9f7f2 60%, #eef5ea 100%);
+        --text: #22201b;
+        --surface: rgb(255 255 255 / 0.8);
+        --surface-border: rgb(34 32 27 / 0.12);
+        --accent: #115e59;
+        --focus: #b45309;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: linear-gradient(160deg, #121212 0%, #1a1d18 60%, #1b2024 100%);
+          --text: #f5f4ef;
+          --surface: rgb(20 20 20 / 0.72);
+          --surface-border: rgb(245 244 239 / 0.16);
+          --accent: #5eead4;
+          --focus: #f59e0b;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        font-family: "Atkinson Hyperlegible Next", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        display: grid;
+        place-items: center;
+        line-height: 1.6;
+        text-rendering: optimizeLegibility;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        background: #fff;
+        color: #000;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.4rem;
+        z-index: 1000;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+        outline: 3px solid var(--focus);
+      }
+
+      main {
+        inline-size: min(92vw, 56rem);
+        padding: clamp(1.2rem, 2.5vw, 2rem);
+      }
+
+      article {
+        background: var(--surface);
+        border: 1px solid var(--surface-border);
+        border-radius: 1rem;
+        padding: clamp(1.25rem, 3vw, 2.5rem);
+        backdrop-filter: blur(6px);
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 0.65rem;
+        font-size: clamp(1.8rem, 3vw, 2.7rem);
+        line-height: 1.15;
+      }
+
+      p {
+        margin: 0;
+        font-size: clamp(1rem, 1.25vw, 1.125rem);
+      }
+
+      .status {
+        margin-top: 1rem;
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <main id="main-content" aria-labelledby="page-title">
+      <article>
+        <h1 id="page-title">Python Reference Application</h1>
+        <p>Reference Python Application</p>
+        <p>Hosted on Azure App Services</p>
+        <p>GitHub Actions for CI/CD</p>
+        <p>Django ASGI</p>
+        <p>Application Insights observability</p>
+        <p class="status" aria-live="polite">Application status: online</p>
+      </article>
+    </main>
+  </body>
+</html>

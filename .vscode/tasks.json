@@ -25,13 +25,14 @@
             },
             "isBackground": true,
             "problemMatcher": {
-                "pattern": [
-                    {
-                        "regexp": "."
-                    }
-                ],
+                "owner": "custom",
+                "pattern": {
+                    "regexp": "^(.*)$",
+                    "message": 1
+                },
                 "background": {
                     "activeOnStart": true,
+                    "beginsPattern": ".",
                     "endsPattern": "Application startup complete\\."
                 }
             }
