@@ -31,4 +31,4 @@ uv run python manage.py migrate --noinput --active
 uv run python manage.py collectstatic --noinput --active 
 
 # Start the Django ASGI application using Uvicorn.
-exec uv run --active uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
+exec uv run uvicorn --host="0.0.0.0" --port="${PORT:-8000}" --workers="${UVICORN_WORKERS:-4}" django_app.asgi:application
