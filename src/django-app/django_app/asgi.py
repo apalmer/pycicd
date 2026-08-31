@@ -21,7 +21,9 @@ connection_string = os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')
 print('Initializing Azure Application Insights...')
 
 if connection_string:
-    configure_azure_monitor()
+    configure_azure_monitor(
+        enable_live_metrics=False,
+    )
     print('Azure Application Insights initialized successfully.')
 else:
     print('Azure Application Insights skipped: APPLICATIONINSIGHTS_CONNECTION_STRING is not configured.')
