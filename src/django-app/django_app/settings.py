@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
-from azure.monitor.opentelemetry import configure_azure_monitor
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -134,13 +133,9 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
         },
-        'azure_monitor': {
-            'class': 'opentelemetry.sdk._logs.LoggingHandler',
-            'level': 'INFO',
-        },
     },
     'root': {
-        'handlers': ['console', 'azure_monitor'],
+        'handlers': ['console'],
         'level': 'INFO',
     },
 }

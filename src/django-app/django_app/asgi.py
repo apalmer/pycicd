@@ -23,6 +23,7 @@ print('Initializing Azure Application Insights...')
 if connection_string:
     configure_azure_monitor(
         enable_live_metrics=False,
+        logger_name='',
     )
     print('Azure Application Insights initialized successfully.')
 else:
