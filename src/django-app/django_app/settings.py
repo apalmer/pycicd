@@ -142,4 +142,14 @@ LOGGING = {
         'handlers': ['console', 'azure_monitor'],
         'level': 'INFO',
     },
+    'loggers': {
+        'azure.core.pipeline.policies.http_logging_policy': {
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'azure.monitor.opentelemetry.exporter.export._base': {
+            'level': 'WARNING',
+            'propagate': True,
+        },
+    },
 }

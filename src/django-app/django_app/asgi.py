@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/6.0/howto/deployment/asgi/
 
 import os
 from pathlib import Path
-import logging
 
 from azure.monitor.opentelemetry import configure_azure_monitor
 from django.core.asgi import get_asgi_application
@@ -25,9 +24,6 @@ if connection_string:
     configure_azure_monitor(
         enable_live_metrics=False,
     )
-
-    logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(logging.WARNING)
-    logging.getLogger("azure.monitor.opentelemetry.exporter.export._base").setLevel(logging.WARNING)
 
     print('Azure Application Insights initialized successfully.')
 else:
