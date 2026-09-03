@@ -136,7 +136,6 @@ LOGGING = {
         },
         'azure_monitor': {
             'class': 'opentelemetry.sdk._logs.LoggingHandler',
-            'level': 'WARNING',
         },
     },
     'root': {
