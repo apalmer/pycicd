@@ -1,5 +1,36 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Application Insights
+
+This app has end-to-end Azure Application Insights instrumentation enabled for:
+
+- Browser page views and client-side exceptions
+- Server-side requests, dependencies, performance, and exceptions
+- Distributed tracing correlation between client and server telemetry
+
+### 1) Configure environment variables
+
+Copy `.env.example` to `.env.local` and provide your real connection string values:
+
+```bash
+cp .env.example .env.local
+```
+
+The app reads these keys:
+
+- `APPLICATIONINSIGHTS_CONNECTION_STRING` (preferred for server telemetry)
+- `NEXT_PUBLIC_APPLICATIONINSIGHTS_CONNECTION_STRING` (required for browser telemetry)
+- `APPLICATIONINSIGHTS_ROLE_NAME` (optional server role name)
+- `NEXT_PUBLIC_APPLICATIONINSIGHTS_ROLE_NAME` (optional browser role name)
+
+### 2) Run the app
+
+```bash
+pnpm dev
+```
+
+After traffic is generated, verify telemetry in Azure Portal under your Application Insights resource.
+
 ## Getting Started
 
 First, run the development server:

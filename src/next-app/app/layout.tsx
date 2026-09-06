@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
+import AppInsightsPageViewTracker from "@/app/components/app-insights-page-view-tracker";
+import SiteNav from "@/app/components/site-nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +30,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Suspense fallback={null}>
+          <AppInsightsPageViewTracker />
+        </Suspense>
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }
