@@ -75,6 +75,7 @@ resource "azurerm_linux_web_app" "app_service_next" {
   site_config {
     health_check_path = "/healthz/"
     health_check_eviction_time_in_min = 10
+    app_command_line = "bash startup.sh"
 
     application_stack {
       node_version = "24"
