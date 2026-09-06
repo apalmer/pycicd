@@ -1,4 +1,4 @@
-name: Python application
+name: JavaScript Next.js Application
 
 on:
   [push]
