@@ -27,3 +27,8 @@ variable "vnet_integration_subnet_id" {
   description = "The ID of the subnet for the app service"
   type        = string
 }
+
+variable "django_secret_key" {
+  description = "The secret key for the Django application"
+  type        = string
+}
