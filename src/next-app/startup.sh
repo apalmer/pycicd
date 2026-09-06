@@ -3,5 +3,5 @@ set -euo pipefail
 
 echo "Starting Next.js application..."
 
-pnpm run build
-pnpm start
+npm run build
+npm start
