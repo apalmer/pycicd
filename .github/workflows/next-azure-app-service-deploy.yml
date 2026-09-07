@@ -9,7 +9,8 @@ permissions:
 
 env:
   AZURE_WEBAPP_NAME: site-next-pycidcd-dev1 # Set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './src/next-app' # Set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_BUILD_PATH: './src/next-app' # Build path for Next.js app
+  AZURE_WEBAPP_PACKAGE_PATH: './src/next-app/.next/standalone' # Deploy only the standalone output
 
 jobs:
   build:
@@ -24,12 +25,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      working-directory: ${{ env.AZURE_WEBAPP_BUILD_PATH }}
 
     - name: Build optimized production app
       run: |
         npm run build
-      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      working-directory: ${{ env.AZURE_WEBAPP_BUILD_PATH }}
       env:
         NODE_ENV: production
 
@@ -40,17 +41,7 @@ jobs:
         if [ -d "public" ]; then
           cp -r public .next/standalone/public
         fi
-      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-    - name: Prune to production dependencies
-      run: npm prune --omit=dev
-      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-    - name: Debug file listing before Azure deploy
-      run: |
-        echo "Working directory: $(pwd)"
-        echo "Repository file list:"
-        find . -type f | sort
+      working-directory: ${{ env.AZURE_WEBAPP_BUILD_PATH }}
     
     - uses: azure/login@v3
       with:
