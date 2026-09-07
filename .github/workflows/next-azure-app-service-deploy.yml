@@ -31,7 +31,6 @@ jobs:
       run: |
         pnpm install \
           --frozen-lockfile \
-          --prod \
           --force \
           --prefer-offline=false \
           --config.node-linker=hoisted \
@@ -40,10 +39,16 @@ jobs:
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Build optimized production app
-      run: pnpm build
+      run: |
+        pnpm exec next telemetry enable
+        pnpm build
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       env:
         NODE_ENV: production
+
+    - name: Prune to production dependencies
+      run: pnpm prune --prod
+      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Debug file listing before Azure deploy
       run: |
