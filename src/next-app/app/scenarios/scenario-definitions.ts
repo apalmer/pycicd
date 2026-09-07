@@ -2,7 +2,9 @@ export type ScenarioId =
   | "server-success"
   | "server-error"
   | "client-success"
-  | "client-error";
+  | "client-error"
+  | "python-api-success"
+  | "python-api-error";
 
 export type ScenarioRuntime = "server" | "client";
 export type ScenarioOutcome = "success" | "error";
@@ -23,7 +25,7 @@ export const scenarioDefinitions: ScenarioDefinition[] = [
     slug: "server-success",
     title: "Server-Side Success",
     description:
-      "Runs a server action, emits debug/info/warn/error telemetry, and returns normally.",
+      "Server route with success behavior and server-side action execution.",
     runtime: "server",
     outcome: "success",
     buttonLabel: "Run Server Success Scenario",
@@ -33,7 +35,7 @@ export const scenarioDefinitions: ScenarioDefinition[] = [
     slug: "server-error",
     title: "Server-Side Error",
     description:
-      "Runs a server action, emits telemetry, tracks an exception, and throws intentionally.",
+      "Server route that intentionally throws an error through a server action.",
     runtime: "server",
     outcome: "error",
     buttonLabel: "Run Server Error Scenario",
@@ -43,7 +45,7 @@ export const scenarioDefinitions: ScenarioDefinition[] = [
     slug: "client-success",
     title: "Client-Side Success",
     description:
-      "Runs in the browser, emits debug/info/warn/error telemetry, and completes successfully.",
+      "Client route with success behavior and client-side scenario execution.",
     runtime: "client",
     outcome: "success",
     buttonLabel: "Run Client Success Scenario",
@@ -53,24 +55,33 @@ export const scenarioDefinitions: ScenarioDefinition[] = [
     slug: "client-error",
     title: "Client-Side Error",
     description:
-      "Runs in the browser, emits telemetry, then throws an intentional client error.",
+      "Client route that intentionally throws an error from the browser.",
     runtime: "client",
     outcome: "error",
     buttonLabel: "Run Client Error Scenario",
+  },
+  {
+    id: "python-api-success",
+    slug: "python-api-success",
+    title: "Python API Success",
+    description:
+      "Server route that calls a Django REST endpoint and renders its JSON payload.",
+    runtime: "server",
+    outcome: "success",
+    buttonLabel: "Run Python API Success Scenario",
+  },
+  {
+    id: "python-api-error",
+    slug: "python-api-error",
+    title: "Python API Error",
+    description:
+      "Server route that calls an intentionally failing Django REST endpoint.",
+    runtime: "server",
+    outcome: "error",
+    buttonLabel: "Run Python API Error Scenario",
   },
 ];
 
 export function getScenarioBySlug(slug: string): ScenarioDefinition | undefined {
   return scenarioDefinitions.find((item) => item.slug === slug);
 }
-
-export const scenariosNavLinks = [
-  {
-    href: "/scenarios",
-    label: "Overview",
-  },
-  ...scenarioDefinitions.map((item) => ({
-    href: `/scenarios/${item.slug}`,
-    label: item.title,
-  })),
-];

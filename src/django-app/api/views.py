@@ -143,3 +143,27 @@ def delta(request):
             'received_at': datetime.now(timezone.utc).isoformat(),
         }
     )
+
+
+@require_http_methods(['GET'])
+def scenario_success(request):
+    return JsonResponse(
+        {
+            'scenario': 'python-api-success',
+            'status': 'ok',
+            'message': 'Python API success scenario completed.',
+            'data': {
+                'service': 'django-app',
+                'timestamp': datetime.now(timezone.utc).isoformat(),
+                'items': [
+                    {'id': 1, 'name': 'alpha'},
+                    {'id': 2, 'name': 'beta'},
+                ],
+            },
+        }
+    )
+
+
+@require_http_methods(['GET'])
+def scenario_error(request):
+    raise RuntimeError('Intentional Python API scenario error')

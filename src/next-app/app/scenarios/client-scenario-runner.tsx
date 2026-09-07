@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   trackClientEvent,
+  trackClientException,
   trackClientTrace,
   type TelemetryLogLevel,
 } from "@/lib/application-insights-client";
@@ -11,7 +12,6 @@ type ClientScenarioId = "client-success" | "client-error";
 
 type ClientScenarioRunnerProps = {
   scenario: ClientScenarioId;
-  buttonLabel: string;
 };
 
 function logClientLevels(
@@ -32,19 +32,24 @@ function logClientLevels(
 
 export default function ClientScenarioRunner({
   scenario,
-  buttonLabel,
 }: ClientScenarioRunnerProps) {
   const [completedAt, setCompletedAt] = useState<string | null>(null);
-  const [shouldThrow, setShouldThrow] = useState(false);
+  const [errorToThrow, setErrorToThrow] = useState<Error | null>(null);
+  const hasRunRef = useRef(false);
 
-  if (shouldThrow) {
-    throw new Error("Intentional client-side scenario error");
+  if (errorToThrow) {
+    throw errorToThrow;
   }
 
   const isErrorScenario = scenario === "client-error";
   const outcome = isErrorScenario ? "error" : "success";
 
-  const onRun = () => {
+  useEffect(() => {
+    if (hasRunRef.current) {
+      return;
+    }
+
+    hasRunRef.current = true;
     logClientLevels(scenario, outcome);
     trackClientEvent("scenario-run", {
       scenario,
@@ -53,26 +58,18 @@ export default function ClientScenarioRunner({
     });
 
     if (isErrorScenario) {
-      setShouldThrow(true);
+      const error = new Error("Intentional client-side scenario error");
+      trackClientException(error, "client-error-scenario-runner");
+      setErrorToThrow(error);
       return;
     }
 
     setCompletedAt(new Date().toISOString());
-  };
+  }, [isErrorScenario, outcome, scenario]);
 
   return (
     <>
-      <button
-        className={
-          isErrorScenario
-            ? "mt-5 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white"
-            : "mt-5 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white"
-        }
-        onClick={onRun}
-        type="button"
-      >
-        {buttonLabel}
-      </button>
+      <p className="mt-3 text-xs text-zinc-500">Scenario launched on route load.</p>
       {completedAt ? (
         <p className="mt-3 text-xs text-zinc-500">Last run: {completedAt}</p>
       ) : null}

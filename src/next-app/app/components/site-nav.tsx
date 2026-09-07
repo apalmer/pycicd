@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { scenarioDefinitions } from "@/app/scenarios/scenario-definitions";
 
 function navClass(isActive: boolean): string {
   const base =
@@ -15,9 +16,16 @@ function navClass(isActive: boolean): string {
 
 export default function SiteNav() {
   const pathname = usePathname();
-
-  const inScenarios = pathname?.startsWith("/scenarios") ?? false;
-  const onHome = pathname === "/";
+  const navItems = [
+    {
+      href: "/",
+      label: "Home",
+    },
+    ...scenarioDefinitions.map((scenario) => ({
+      href: `/${scenario.slug}`,
+      label: scenario.title,
+    })),
+  ];
 
   return (
     <header className="border-b border-zinc-200 bg-white/90 px-6 py-4 backdrop-blur">
@@ -26,12 +34,15 @@ export default function SiteNav() {
           Next App
         </Link>
         <div className="flex items-center gap-2">
-          <Link className={navClass(onHome)} href="/">
-            Home
-          </Link>
-          <Link className={navClass(inScenarios)} href="/scenarios">
-            Scenarios
-          </Link>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link className={navClass(isActive)} href={item.href} key={item.href}>
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </nav>
     </header>

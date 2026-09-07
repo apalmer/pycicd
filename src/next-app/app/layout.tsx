@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppInsightsPageViewTracker from "@/app/components/app-insights-page-view-tracker";
+import RouteTelemetry from "@/app/components/route-telemetry";
 import SiteNav from "@/app/components/site-nav";
 import "./globals.css";
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Suspense fallback={null}>
           <AppInsightsPageViewTracker />
+          <RouteTelemetry />
         </Suspense>
         <SiteNav />
         {children}

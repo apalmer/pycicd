@@ -7,4 +7,6 @@ urlpatterns = [
     path('beta/', views.beta, name='beta'),
     path('gamma/', views.gamma, name='gamma'),
     path('delta/', views.delta, name='delta'),
+    path('scenario-success/', views.scenario_success, name='scenario-success'),
+    path('scenario-error/', views.scenario_error, name='scenario-error'),
 ]
