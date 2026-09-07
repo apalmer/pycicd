@@ -42,6 +42,17 @@ jobs:
           cp -r public .next/standalone/public
         fi
       working-directory: ${{ env.AZURE_WEBAPP_BUILD_PATH }}
+
+    - name: Debug deploy package path contents
+      run: |
+        echo "AZURE_WEBAPP_PACKAGE_PATH=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        if [ ! -d "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}" ]; then
+          echo "Package path does not exist."
+          exit 1
+        fi
+        cd "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        echo "Listing contents from: $(pwd)"
+        find . -print | sort
     
     - uses: azure/login@v3
       with:
