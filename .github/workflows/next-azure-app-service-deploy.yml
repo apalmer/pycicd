@@ -28,7 +28,15 @@ jobs:
         version: 9
 
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+      run: |
+        pnpm install \
+          --frozen-lockfile \
+          --prod \
+          --force \
+          --prefer-offline=false \
+          --config.node-linker=hoisted \
+          --config.package-import-method=copy \
+          --config.store-dir=/tmp/pnpm-store
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Build optimized production app
@@ -36,6 +44,12 @@ jobs:
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       env:
         NODE_ENV: production
+
+    - name: Debug file listing before Azure deploy
+      run: |
+        echo "Working directory: $(pwd)"
+        echo "Repository file list:"
+        find . -type f | sort
     
     - uses: azure/login@v3
       with:
