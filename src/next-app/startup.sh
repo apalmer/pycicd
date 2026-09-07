@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Starting Next.js application..."
+echo "Starting Next.js standalone application..."
 
-#npm install
-#npm run build
-npm start
+if [ ! -f ".next/standalone/server.js" ]; then
+	echo "Standalone build not found at .next/standalone/server.js"
+	echo "Run 'pnpm build' first to generate the standalone output."
+	exit 1
+fi
+
+export HOSTNAME="${HOSTNAME:-0.0.0.0}"
+export PORT="${PORT:-8000}"
+
+exec node .next/standalone/server.js
