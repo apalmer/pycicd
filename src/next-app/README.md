@@ -22,7 +22,7 @@ The app reads these keys:
 - `NEXT_PUBLIC_APPLICATIONINSIGHTS_CONNECTION_STRING` (required for browser telemetry)
 - `APPLICATIONINSIGHTS_ROLE_NAME` (optional server role name)
 - `NEXT_PUBLIC_APPLICATIONINSIGHTS_ROLE_NAME` (optional browser role name)
-- `PYTHON_API_BASE_URL` (base URL used by Next server routes for Python API scenarios, e.g. `http://127.0.0.1:8000/api`)
+- `DJANGO_API_BASE_URL` (base URL used by Next server routes for Django API scenarios, e.g. `http://127.0.0.1:8000/api`)
 
 ### 2) Run the app
 

@@ -17,10 +17,11 @@ export type PythonApiCallResult = {
 };
 
 function getPythonApiBaseUrl(): string {
-  const configuredBaseUrl =
-    process.env.PYTHON_API_BASE_URL ??
-    process.env.NEXT_PUBLIC_PYTHON_API_BASE_URL ??
-    "http://127.0.0.1:8000/api";
+  const configuredBaseUrl = process.env.DJANGO_API_BASE_URL;
+
+  if (!configuredBaseUrl) {
+    throw new Error("Missing required environment variable: DJANGO_API_BASE_URL");
+  }
 
   return configuredBaseUrl.replace(/\/+$/, "");
 }

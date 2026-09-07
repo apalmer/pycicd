@@ -32,3 +32,8 @@ variable "django_secret_key" {
   description = "The secret key for the Django application"
   type        = string
 }
+
+variable "django_api_base_url" {
+  description = "Required Django API base URL used by the Next app."
+  type        = string
+}

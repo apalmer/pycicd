@@ -38,6 +38,7 @@ resource "azurerm_linux_web_app" "app_service_django" {
 
   app_settings = {
     APPLICATIONINSIGHTS_CONNECTION_STRING      = azurerm_application_insights.main.connection_string
+    APPLICATIONINSIGHTS_ROLE_NAME              = "django-${var.project_name}-${var.project_instance}"
     APPLICATIONINSIGHTS_LIVE_METRICS_ENABLE    = "false"
     APPLICATIONINSIGHTS_STATSBEAT_DISABLED_ALL = "true"
     OTEL_SERVICE_NAME                          = "django-${var.project_name}-${var.project_instance}"
@@ -78,14 +79,20 @@ resource "azurerm_linux_web_app" "app_service_next" {
     app_command_line = "bash startup.sh"
 
     application_stack {
-      node_version = "24"
+      node_version = "24-lts"
     }
   }
 
   app_settings = {
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
-    OTEL_SERVICE_NAME                     = "next-${var.project_name}-${var.project_instance}"
-    OTEL_PYTHON_DJANGO_EXCLUDED_URLS      = "healthz"
+    APPLICATIONINSIGHTS_CONNECTION_STRING      = azurerm_application_insights.main.connection_string
+    NEXT_PUBLIC_APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    APPLICATIONINSIGHTS_ROLE_NAME              = "next-${var.project_name}-${var.project_instance}-server"
+    NEXT_PUBLIC_APPLICATIONINSIGHTS_ROLE_NAME  = "next-${var.project_name}-${var.project_instance}-web"
+    DJANGO_API_BASE_URL                        = var.django_api_base_url
+    APPLICATIONINSIGHTS_LIVE_METRICS_ENABLE    = "false"
+    APPLICATIONINSIGHTS_STATSBEAT_DISABLED_ALL = "true"
+    OTEL_SERVICE_NAME                          = "next-${var.project_name}-${var.project_instance}"
+    OTEL_PYTHON_DJANGO_EXCLUDED_URLS           = "healthz"
   }
 
   tags = local.tags
