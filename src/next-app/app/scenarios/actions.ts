@@ -20,7 +20,7 @@ function getPythonApiBaseUrl(): string {
   const configuredBaseUrl = process.env.DJANGO_API_BASE_URL;
 
   if (!configuredBaseUrl) {
-    throw new Error("Missing required environment variable: DJANGO_API_BASE_URL");
+    return "";
   }
 
   return configuredBaseUrl.replace(/\/+$/, "");
@@ -31,7 +31,37 @@ async function callPythonApi(
   scenario: "python-api-success" | "python-api-error",
   expectedOutcome: "success" | "error",
 ): Promise<PythonApiCallResult> {
-  const url = `${getPythonApiBaseUrl()}${path}`;
+  const baseUrl = getPythonApiBaseUrl();
+  const url = baseUrl ? `${baseUrl}${path}` : path;
+
+  if (!baseUrl) {
+    const errorMessage =
+      "Missing required environment variable: DJANGO_API_BASE_URL";
+
+    trackServerTrace("python api base url missing", "error", {
+      scenario,
+      runtime: "server",
+      outcome: "error",
+      expectedOutcome,
+      path,
+    });
+
+    trackServerException(new Error(errorMessage), {
+      scenario,
+      runtime: "server",
+      outcome: "error",
+      expectedOutcome,
+      handledAt: "callPythonApi",
+      path,
+    });
+
+    return {
+      ok: false,
+      status: 0,
+      url,
+      errorMessage,
+    };
+  }
 
   try {
     const response = await fetch(url, {
