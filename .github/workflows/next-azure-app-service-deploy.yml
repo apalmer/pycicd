@@ -22,32 +22,19 @@ jobs:
       with:
         node-version: '24'
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 9
-
     - name: Install dependencies
-      run: |
-        pnpm install \
-          --frozen-lockfile \
-          --force \
-          --prefer-offline=false \
-          --config.node-linker=hoisted \
-          --config.package-import-method=copy \
-          --config.store-dir=/tmp/pnpm-store
+      run: npm install
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Build optimized production app
       run: |
-        pnpm exec next telemetry enable
-        pnpm build
+        npm run build
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       env:
         NODE_ENV: production
 
     - name: Prune to production dependencies
-      run: pnpm prune --prod
+      run: npm prune --omit=dev
       working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Debug file listing before Azure deploy
