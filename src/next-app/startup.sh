@@ -5,7 +5,7 @@ echo "Starting Next.js standalone application..."
 
 if [ ! -f ".next/standalone/server.js" ]; then
 	echo "Standalone build not found at .next/standalone/server.js"
-	echo "Run 'pnpm build' first to generate the standalone output."
+	echo "Run 'npm run build' first to generate the standalone output."
 	exit 1
 fi
 
